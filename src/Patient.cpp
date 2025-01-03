@@ -67,7 +67,7 @@ void Patient::updateDetails()
     cout << "#########       Updating Patient Details       #########" << endl;
     cout << "########################################################" << endl;
 
-    cout << "\nter new name: ";
+    cout << "\nEnter new name: ";
     // Clear the input buffer
     cin.ignore();
     getline(cin, name);
