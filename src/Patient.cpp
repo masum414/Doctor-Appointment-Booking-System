@@ -26,8 +26,8 @@ void Patient::createAppointment(const string &date, int doctorID, const string &
 
 void Patient::showAppointments(const vector<json> &doctors) const
 {
-    cout << "####### Showing appointments for patient " << name << ":" << endl;
-    for (int i = 0; i < appointments.size(); i++)
+    cout << "\n####### Showing appointments for patient " << name << " #######" << endl;
+    for (size_t i = 0; i < appointments.size(); i++)
     {
         const auto &appointment = appointments[i];
         string doctorName;
@@ -39,7 +39,8 @@ void Patient::showAppointments(const vector<json> &doctors) const
                 break;
             }
         }
-        cout << i + 1 << ". Doctor: " << doctorName << ", Date: " << appointment.date << ", Time Slot: " << appointment.timeSlot << endl;
+        cout << "\n"
+             << i + 1 << ". Doctor: " << doctorName << ", Date: " << appointment.date << ", Time Slot: " << appointment.timeSlot << endl;
     }
 }
 
