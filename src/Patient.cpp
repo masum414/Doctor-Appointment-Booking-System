@@ -46,12 +46,6 @@ void Patient::showAppointments(const vector<json> &doctors) const
 
 void Patient::cancelAppointment(int appointmentIndex, vector<json> &doctors)
 {
-    if (appointmentIndex < 0 || appointmentIndex >= appointments.size())
-    {
-        cout << "Appointment not found." << endl;
-        return;
-    }
-
     auto appointment = appointments[appointmentIndex];
     for (auto &doctor : doctors)
     {
@@ -63,7 +57,7 @@ void Patient::cancelAppointment(int appointmentIndex, vector<json> &doctors)
     }
 
     appointments.erase(appointments.begin() + appointmentIndex);
-    cout << "Appointment canceled successfully." << endl;
+    cout << "\nAppointment canceled successfully." << endl;
 }
 
 void Patient::updateDetails()
