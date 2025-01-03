@@ -14,7 +14,7 @@ void Patient::createAppointment(const string &date, int doctorID, const string &
     {
         if (appointment.date == date && appointment.timeSlot == timeSlot && appointment.doctorID == doctorID)
         {
-            cout << "The selected time slot is already booked. Please choose another time slot." << endl;
+            cout << "\nThe selected time slot is already booked. Please choose another time slot." << endl;
             return;
         }
     }
