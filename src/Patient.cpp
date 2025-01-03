@@ -68,33 +68,37 @@ void Patient::cancelAppointment(int appointmentIndex, vector<json> &doctors)
 void Patient::updateDetails()
 {
     DataValidator validator;
-    cout << "####### Updating Patient Details #######" << endl;
+    cout << "\n########################################################" << endl;
+    cout << "#########       Updating Patient Details       #########" << endl;
+    cout << "########################################################" << endl;
 
-    cout << "Enter new name: ";
+    cout << "\nter new name: ";
+    // Clear the input buffer
+    cin.ignore();
     getline(cin, name);
 
     do
     {
-        cout << "Enter new phone number: ";
+        cout << "\nEnter new phone number: ";
         getline(cin, phone);
         if (!validator.validatePhone(phone))
         {
-            cout << "Invalid phone number. Please enter a valid phone number." << endl;
+            cout << "\nInvalid phone number. Please enter a valid phone number." << endl;
         }
     } while (!validator.validatePhone(phone));
 
     do
     {
-        cout << "Enter new email address: ";
+        cout << "\nEnter new email address: ";
         getline(cin, email);
         if (!validator.validateEmail(email))
         {
-            cout << "Invalid email address. Please enter a valid email address." << endl;
+            cout << "\nInvalid email address. Please enter a valid email address." << endl;
         }
     } while (!validator.validateEmail(email));
 
-    cout << "Enter new password: ";
+    cout << "\nEnter new password: ";
     getline(cin, password);
 
-    cout << "Patient details updated successfully." << endl;
+    cout << "\nPatient details updated successfully." << endl;
 }
