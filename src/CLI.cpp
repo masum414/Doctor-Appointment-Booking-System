@@ -173,3 +173,11 @@ void CLI::displayPatientMenu(Patient &patient)
         break;
     }
 }
+
+void CLI::updatePatientInfo(Patient &patient)
+{
+    clearScreen();
+    patient.updateDetails();
+    jsonHandler.savePatients(patients);
+    displayPatientMenu(patient);
+}
