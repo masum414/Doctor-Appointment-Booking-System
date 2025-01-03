@@ -174,6 +174,102 @@ void CLI::displayPatientMenu(Patient &patient)
     }
 }
 
+void CLI::createPatientAppointment(Patient &patient)
+{
+    clearScreen();
+    string date, timeSlot;
+    int doctorIndex;
+
+    cout << "\n####### Available Doctors:" << endl;
+    for (size_t i = 0; i < doctors.size(); ++i)
+    {
+        const auto &doctor = doctors[i];
+        cout << "\n"
+             << i + 1 << ". Doctor ID: " << doctor["ID"] << ", Name: " << doctor["Name"] << ", Specialization: " << doctor["Specialization"] << endl;
+    }
+
+    cout << "\nEnter the serial number of the doctor (or 0 to go back): ";
+    while (!(cin >> doctorIndex) || doctorIndex < 0 || static_cast<size_t>(doctorIndex) > doctors.size())
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "\nInvalid choice. Please enter a valid number: ";
+    }
+    if (doctorIndex == 0)
+    {
+        displayPatientMenu(patient);
+        return;
+    }
+    // Convert to zero-based index
+    doctorIndex--;
+
+    const auto &doctor = doctors[doctorIndex];
+
+    cout << "\n####### Available Dates:" << endl;
+    vector<string> availableDates;
+    for (const auto &dateEntry : doctor["Appointments"].items())
+    {
+        availableDates.push_back(dateEntry.key());
+        cout << "\n"
+             << availableDates.size() << ". " << dateEntry.key() << endl;
+    }
+
+    int dateIndex;
+    cout << "\nEnter the serial number of the date (or 0 to go back): ";
+    while (!(cin >> dateIndex) || dateIndex < 0 || static_cast<size_t>(dateIndex) > availableDates.size())
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "\nInvalid choice. Please enter a valid number: ";
+    }
+    if (dateIndex == 0)
+    {
+        displayPatientMenu(patient);
+        return;
+    }
+    // Convert to zero-based index
+    date = availableDates[dateIndex - 1];
+
+    cout << "\n####### Available Time Slots:" << endl;
+    vector<string> availableTimeSlots;
+    for (const auto &slot : doctor["Appointments"][date].items())
+    {
+        availableTimeSlots.push_back(slot.key());
+        cout << "\n"
+             << availableTimeSlots.size() << ". " << slot.key() << " - " << (slot.value() ? "Not Booked" : "Booked") << endl;
+    }
+
+    int timeSlotIndex;
+    cout << "\nEnter the serial number of the time slot (or 0 to go back): ";
+    while (!(cin >> timeSlotIndex) || timeSlotIndex < 0 || static_cast<size_t>(timeSlotIndex) > availableTimeSlots.size())
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "\nInvalid choice. Please enter a valid number: ";
+    }
+    if (timeSlotIndex == 0)
+    {
+        displayPatientMenu(patient);
+        return;
+    }
+    // Convert to zero-based index
+    timeSlot = availableTimeSlots[timeSlotIndex - 1];
+
+    // Check if the selected time slot is available
+    if (!doctor["Appointments"][date][timeSlot])
+    {
+        cout << "\nThe selected time slot is already booked. Please choose another time slot." << endl;
+        createPatientAppointment(patient);
+        return;
+    }
+
+    // Create the appointment
+    patient.createAppointment(date, doctor["ID"], timeSlot);
+    jsonHandler.savePatients(patients);
+    jsonHandler.saveDoctors(doctors);
+    displayPatientMenu(patient);
+}
+
 void CLI::showPatientAppointments(Patient &patient)
 {
     clearScreen();
