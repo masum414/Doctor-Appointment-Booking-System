@@ -174,6 +174,21 @@ void CLI::displayPatientMenu(Patient &patient)
     }
 }
 
+void CLI::showPatientAppointments(Patient &patient)
+{
+    clearScreen();
+    patient.showAppointments(doctors);
+    cout << "\nEnter 0 to go back: ";
+    int choice;
+    while (!(cin >> choice) || choice != 0)
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "\nInvalid choice. Please enter 0 to go back: ";
+    }
+    displayPatientMenu(patient);
+}
+
 void CLI::updatePatientInfo(Patient &patient)
 {
     clearScreen();
