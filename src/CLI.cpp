@@ -62,3 +62,69 @@ void CLI::displayMainMenu()
         break;
     }
 }
+
+void CLI::displayLoginMenu()
+{
+    clearScreen();
+    string email, password;
+    cout << "\n########################################################" << endl;
+    cout << "#########            Patient Login             #########" << endl;
+    cout << "########################################################" << endl;
+    cout << "\nEnter email: ";
+    cin >> email;
+    cout << "\nEnter password: ";
+    cin >> password;
+
+    for (auto &patient : patients)
+    {
+        if (patient.email == email && patient.password == password)
+        {
+            cout << "\nLogin successful. Welcome, " << patient.name << "!" << endl;
+            displayPatientMenu(patient);
+            return;
+        }
+    }
+    cout << "\nInvalid email or password. Please try again." << endl;
+    displayMainMenu();
+}
+
+void CLI::displayRegisterMenu()
+{
+    clearScreen();
+    string name, phone, email, password;
+    DataValidator validator;
+
+    cout << "\n########################################################" << endl;
+    cout << "#########         Patient Registration         #########" << endl;
+    cout << "########################################################" << endl;
+    cout << "\nEnter name: ";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    getline(cin, name);
+
+    do
+    {
+        cout << "\nEnter phone number: ";
+        getline(cin, phone);
+        if (!validator.validatePhone(phone))
+        {
+            cout << "\nInvalid phone number. Please enter a valid phone number." << endl;
+        }
+    } while (!validator.validatePhone(phone));
+
+    do
+    {
+        cout << "\nEnter email address: ";
+        getline(cin, email);
+        if (!validator.validateEmail(email))
+        {
+            cout << "\nInvalid email address. Please enter a valid email address." << endl;
+        }
+    } while (!validator.validateEmail(email));
+
+    cout << "\nEnter password: ";
+    getline(cin, password);
+
+    patients.push_back(Patient(name, phone, email, password));
+    cout << "\nPatient registered successfully." << endl;
+    displayMainMenu();
+}
