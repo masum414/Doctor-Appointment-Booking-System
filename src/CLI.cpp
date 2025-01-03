@@ -189,6 +189,32 @@ void CLI::showPatientAppointments(Patient &patient)
     displayPatientMenu(patient);
 }
 
+void CLI::cancelPatientAppointment(Patient &patient)
+{
+    clearScreen();
+    patient.showAppointments(doctors);
+    int appointmentIndex;
+    cout << "\nEnter the serial number of the appointment to cancel (or 0 to go back): ";
+    while (!(cin >> appointmentIndex) || appointmentIndex < 0 || static_cast<size_t>(appointmentIndex) > patient.appointments.size())
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "\nInvalid choice. Please enter a valid number: ";
+    }
+    if (appointmentIndex == 0)
+    {
+        displayPatientMenu(patient);
+        return;
+    }
+    // Convert to zero-based index
+    appointmentIndex--;
+
+    patient.cancelAppointment(appointmentIndex, doctors);
+    jsonHandler.savePatients(patients);
+    jsonHandler.saveDoctors(doctors);
+    displayPatientMenu(patient);
+}
+
 void CLI::updatePatientInfo(Patient &patient)
 {
     clearScreen();
