@@ -263,6 +263,16 @@ void CLI::createPatientAppointment(Patient &patient)
         return;
     }
 
+    // Mark the time slot as booked
+    for (auto &doc : doctors)
+    {
+        if (doc["ID"] == doctor["ID"])
+        {
+            doc["Appointments"][date][timeSlot] = false;
+            break;
+        }
+    }
+
     // Create the appointment
     patient.createAppointment(date, doctor["ID"], timeSlot);
     jsonHandler.savePatients(patients);
