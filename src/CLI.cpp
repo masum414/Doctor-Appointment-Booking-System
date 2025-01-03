@@ -128,3 +128,48 @@ void CLI::displayRegisterMenu()
     cout << "\nPatient registered successfully." << endl;
     displayMainMenu();
 }
+
+void CLI::displayPatientMenu(Patient &patient)
+{
+    clearScreen();
+    int choice;
+    cout << "\n########################################################" << endl;
+    cout << "#########            Patient Menu              #########" << endl;
+    cout << "########################################################" << endl;
+    cout << "\n1. Create Appointment" << endl;
+    cout << "\n2. Show Appointments" << endl;
+    cout << "\n3. Cancel Appointment" << endl;
+    cout << "\n4. Update User Info" << endl;
+    cout << "\n5. Logout" << endl;
+    cout << "\nEnter your choice: ";
+    cin >> choice;
+    while (!choice)
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "\nInvalid choice. Please enter a number: ";
+    }
+
+    switch (choice)
+    {
+    case 1:
+        createPatientAppointment(patient);
+        break;
+    case 2:
+        showPatientAppointments(patient);
+        break;
+    case 3:
+        cancelPatientAppointment(patient);
+        break;
+    case 4:
+        updatePatientInfo(patient);
+        break;
+    case 5:
+        displayMainMenu();
+        break;
+    default:
+        cout << "\nInvalid choice. Please try again." << endl;
+        displayPatientMenu(patient);
+        break;
+    }
+}
